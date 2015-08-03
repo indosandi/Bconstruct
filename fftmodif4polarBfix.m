@@ -1,17 +1,17 @@
 param3
 
 ncycle=20;
-nHIO=100;
+nHIO=10;
 nER=10;
 nSupport=1;
 beta=.9;
 
 expm=matf('expm.mat');
 expmn=matf('expmn.mat');
-bess=matf('bessarrtest.mat');
+bess=matf('bessarrdouble.mat');
 
-lowerbound=0;
-upperbound=1;
+lowerbound=0.01;
+upperbound=0.95;
 
 %-------initial guess--------
 % rndPhase = 2*pi*rand(size(amplitude));
@@ -22,8 +22,8 @@ rhos = matf('rhocircle.mat');%real(ifftn(amplitude.*exp(1i*rndPhase)));
 %-----------------------------
 radsupport=28;  % where support
 for iq=1:radsupport
-    rhos(iq,:)=round(rand(1,360));
-%     rhos(iq,:)=rand(1,360);
+%     rhos(iq,:)=round(rand(1,360));
+    rhos(iq,:)=rand(1,360);
 end
 polplot(rhos)
 pause

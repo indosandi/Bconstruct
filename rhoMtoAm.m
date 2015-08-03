@@ -5,21 +5,24 @@ nphi=size(rhoM,2);
 nrings=size(rhoM,1);
 % dphi=2*pi/nphi;
 % bess=matf('bessarr.mat');
-Amq=zeros(nrings,numel(marray));
-
+% Amq=zeros(nrings,numel(marray));
+Amqsum=zeros(nrings,numel(marray),nrings);
 for iq=1:nrings
 %     fprintf('%d \n',iq)
     for im=1:numel(marray)
-        temp=0;
+%         temp=0;
         for ir=1:nrings
             r=(ir-1)*dr;
 %             q=(iq-1)*dq;
 %             temp=temp+ rhoM(ir,im)*bess(iq,ir,im)*(j)^marray(im);
-            temp=temp+2*pi*r*rhoM(ir,im)*bess(iq,ir,im)*(j)^marray(im);
+         Amqsum(iq,im,ir)=2*pi*r*rhoM(ir,im)*bess(iq,ir,im)*(j)^marray(im);
+%             temp=temp+2*pi*r*rhoM(ir,im)*bess(iq,ir,im)*(j)^marray(im);
         end
-        Amq(iq,im)=temp;
+%         Amq(iq,im)=temp;
     end
 end
+Amq=sum(Amqsum,3);
+Amq=squeeze(Amq);
 Amq=Amq*dr;
 % save('Amq.mat','Amq');
 end
