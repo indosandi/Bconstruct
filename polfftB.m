@@ -13,9 +13,9 @@ indzero=abs(Imq)<10^(-8); %zero
 Imqnew=Imq.*sqrt(B)./abs(Imq);
 
 Imqnew(indzero)=sqrt(B(indzero));
-% Bnew=abs(Imqnew).^2;
-% RfactorB=R(B,Bnew);
-% fprintf('%f %f \n',Imq(2,21),sqrt(B(2,21)),);
+ Bnew=abs(Imq).^2;
+RfactorB=R(B,Bnew);
+fprintf('%f %f %f \n',Imq(2,21),sqrt(B(2,21)),RfactorB);
 Iq=comppol(Imqnew,nphi,expm);
 Iq=real(Iq);
 Iq(Iq<0)=0;
