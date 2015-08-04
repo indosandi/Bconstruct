@@ -1,5 +1,5 @@
 cd ..
-rhoPolar=matf('shapepolar.mat');
+rhoPolar=matf('tools/shapepolar.mat');
 expmn=matf('expmn.mat');
 expm=matf('expm.mat');
 bessarr=matf('bessarrtest.mat');
