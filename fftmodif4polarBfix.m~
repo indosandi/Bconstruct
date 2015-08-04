@@ -11,7 +11,7 @@ expmn=matf('expmn.mat');
 bess=matf('bessarrtest.mat');
 
 lowerbound=0.0;
-upperbound=5.0;
+upperbound=100.0;
 
 %-------initial guess--------
 % rndPhase = 2*pi*rand(size(amplitude));
@@ -45,7 +45,7 @@ rhomodif = rhos;
 rhoout = zeros(size(rhos));
 
 %how many iter to display
-ndisplay=10;
+ndisplay=5;
 iterdisplay=0;
 %---------------------iteration start here------------
 for icycle=1:ncycle
@@ -71,10 +71,9 @@ for icycle=1:ncycle
         end
         rho = (rhomodif);
         rhomodif=bound(rhomodif,lowerbound,upperbound); % lower and upper boundary
-        iterdisplay=iterdisplay+1;
-        fdisplay(rhoout,iterdisplay,ndisplay);
-%         polplot(rhoout)
-%     drawnow;  
+        iter
+        polplot(rhoout)
+    drawnow;  
     end
     for iter=1:nER
         fprintf('%d %d ER \n',icycle,iter);
@@ -87,11 +86,11 @@ for icycle=1:ncycle
         rhoout =polifft(rhop,dr,dq,mmax,nphi,bess,expm,expmn);
         rhoout = real(rhoout);
 
-%         Eps = std(rhoout(:)); 
-%         S1 = -2*((rhoout < Eps)-.5); 
-%         rhomodif = S1.*rhoout;
+        Eps = std(rhoout(:)); 
+        S1 = -2*((rhoout < Eps)-.5); 
+        rhomodif = S1.*rhoout;
         %ER
-        rhomodif = support.*rhoout + (1-support).*(0);
+%         rhomodif = support.*rhoout + (1-support).*(rhoinit);
 %         rhomodif = support.*rhoout + (1-support).*(rhoinit-beta*rhoout);
 %         mean(rhomodif(:));
 %         if mean(rhomodif(:)) < 0
@@ -100,10 +99,8 @@ for icycle=1:ncycle
 %         end
         rho = (rhomodif);
         rhomodif=bound(rhomodif,lowerbound,upperbound); % lower and upper boundary
-        iterdisplay=iterdisplay+1;
-        fdisplay(rhoout,iterdisplay,ndisplay);
-%         polplot(rhoout)
-%     drawnow;  
+        polplot(rhoout)
+    drawnow;  
     end
 %     gconv = imfilter(rhomodif,fspecial('gaussian', gaussPixelSize, sigGauss)); 
 %     support = rhomodif > 1*Eps;
