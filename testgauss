@@ -1,0 +1,11 @@
+rhos = matf('tools/shapepolar.mat');%real(ifftn(amplitude.*exp(1i*rndPhase)));
+% randNumber=(rand(size(rhos))-0.5)./2;
+% rhos=rhos+randNumber;
+
+%-----------------------------
+radsupport=28;  % where support
+for iq=1:radsupport
+%     rhos(iq,:)=round(rand(1,360));
+    rhos(iq,:)=rand(1,360);
+end
+

@@ -11,7 +11,7 @@ expmn=matf('expmn.mat');
 bess=matf('bessarrtest.mat');
 
 lowerbound=0.0;
-upperbound=5.0;
+upperbound=1.0;
 
 %-------initial guess--------
 % rndPhase = 2*pi*rand(size(amplitude));
@@ -27,7 +27,7 @@ for iq=1:radsupport
 end
 polplot(rhos)
 pause
-B=matf('Bshapepolar.mat');
+B=matf('Bshapehexagon.mat');
 
 
 supInit = ones(size(rhos));
@@ -47,6 +47,36 @@ rhoout = zeros(size(rhos));
 %how many iter to display
 ndisplay=10;
 iterdisplay=0;
+
+%---------for shrinkwrap----------
+scatPol=[];
+xpc=[];
+ypc=[]; 
+
+gaussPixelSize=10; 
+sigGauss=5; 
+eps=0; 
+n=0; 
+for iq=1:nrings
+    r=(iq-1)*dr; 
+    for iphi=1:nPhi
+        n=n+1; 
+        phi=(iphi-1)*dphi; 
+        if(iq~=1 || (iq==1 && n==1) )
+        xpc=[xpc (iq-1).*cos(phi)]; 
+        ypc=[ypc (iq-1).*sin(phi)]; 
+        scatPol=[scatPol rhoPolar(iq,iphi)] ; %avoid duplicate zero
+        end
+    end
+end
+[xc,yc] = meshgrid(-(nrings-1):dr:(nrings-1),-(nrings-1):dr:(nrings-1));
+drcart=1; 
+halfSizeXY=nrings-1;
+[xq,yq]= meshgrid(-halfSizeXY:drcart:halfSizeXY,-halfSizeXY:drcart:halfSizeXY); 
+[phi,q]=meshgrid(0:dphi:2*pi-dphi,0:dr:(nrings-1)*dr);
+xp=q.*cos(phi);
+yp=q.*sin(phi);
+
 %---------------------iteration start here------------
 for icycle=1:ncycle
     %HIO
@@ -71,6 +101,8 @@ for icycle=1:ncycle
         end
         rho = (rhomodif);
         rhomodif=bound(rhomodif,lowerbound,upperbound); % lower and upper boundary
+        eps=std(rhomodif(:)); 
+        support = appsrwap(rhomodif,xpc,ypc,xc,yc,xq,yq,xp,yp,dr,sigGauss,gaussPixelSize) > .5*eps;
         iterdisplay=iterdisplay+1;
         fdisplay(rhoout,iterdisplay,ndisplay);
 %         polplot(rhoout)
@@ -100,11 +132,15 @@ for icycle=1:ncycle
 %         end
         rho = (rhomodif);
         rhomodif=bound(rhomodif,lowerbound,upperbound); % lower and upper boundary
+        eps=std(rhomodif(:)); 
+        support = appsrwap(rhomodif,xpc,ypc,xc,yc,xq,yq,xp,yp,dr,sigGauss,gaussPixelSize) > .5*eps;
         iterdisplay=iterdisplay+1;
         fdisplay(rhoout,iterdisplay,ndisplay);
 %         polplot(rhoout)
 %     drawnow;  
     end
+        %eps=std(rhomodif(:)); 
+        %support = appsrwap(rhomodif,xpc,ypc,xc,yc,xq,yq,xp,yp,dr,sigGauss,25) > 2*eps;
 %     gconv = imfilter(rhomodif,fspecial('gaussian', gaussPixelSize, sigGauss)); 
 %     support = rhomodif > 1*Eps;
 %     support = rho > 0;

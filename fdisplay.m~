@@ -1,3 +1,0 @@
-function fdisplay(rhoP,iter,ndisplay)
-if(mod(iter
-end
