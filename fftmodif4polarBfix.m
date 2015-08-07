@@ -20,14 +20,14 @@ rhos = matf('tools/shapepolar.mat');%real(ifftn(amplitude.*exp(1i*rndPhase)));
 % rhos=rhos+randNumber;
 
 %-----------------------------
-radsupport=28;  % where support
-for iq=1:radsupport
+radsupport=54;  % where support
+for iq=1:28
 %     rhos(iq,:)=round(rand(1,360));
     rhos(iq,:)=rand(1,360);
 end
 polplot(rhos)
 pause
-B=matf('Bshapehexagon.mat');
+B=matf('Bshapepolar.mat');
 
 
 supInit = ones(size(rhos));
@@ -54,18 +54,18 @@ xpc=[];
 ypc=[]; 
 
 gaussPixelSize=10; 
-sigGauss=5; 
+sigGauss=10; 
 eps=0; 
 n=0; 
 for iq=1:nrings
     r=(iq-1)*dr; 
-    for iphi=1:nPhi
+    for iphi=1:nphi
         n=n+1; 
         phi=(iphi-1)*dphi; 
         if(iq~=1 || (iq==1 && n==1) )
         xpc=[xpc (iq-1).*cos(phi)]; 
         ypc=[ypc (iq-1).*sin(phi)]; 
-        scatPol=[scatPol rhoPolar(iq,iphi)] ; %avoid duplicate zero
+        scatPol=[scatPol rhos(iq,iphi)] ; %avoid duplicate zero
         end
     end
 end
@@ -102,6 +102,7 @@ for icycle=1:ncycle
         rho = (rhomodif);
         rhomodif=bound(rhomodif,lowerbound,upperbound); % lower and upper boundary
         eps=std(rhomodif(:)); 
+%         eps=0; 
         support = appsrwap(rhomodif,xpc,ypc,xc,yc,xq,yq,xp,yp,dr,sigGauss,gaussPixelSize) > .5*eps;
         iterdisplay=iterdisplay+1;
         fdisplay(rhoout,iterdisplay,ndisplay);
@@ -132,7 +133,8 @@ for icycle=1:ncycle
 %         end
         rho = (rhomodif);
         rhomodif=bound(rhomodif,lowerbound,upperbound); % lower and upper boundary
-        eps=std(rhomodif(:)); 
+        eps=std(rhomodif(:));
+%         eps=0; 
         support = appsrwap(rhomodif,xpc,ypc,xc,yc,xq,yq,xp,yp,dr,sigGauss,gaussPixelSize) > .5*eps;
         iterdisplay=iterdisplay+1;
         fdisplay(rhoout,iterdisplay,ndisplay);
