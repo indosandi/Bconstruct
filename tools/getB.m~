@@ -1,0 +1,12 @@
+param3
+Iqpolar=matf('rho.mat'); 
+Iqpolar=abs(aqpolar).^2; 
+size(Iqpolar) 
+cd ..
+polplot(Iqpolar); 
+drawnow; 
+cd tools
+expmn=matf('expmnkchannel2.mat'); 
+Imq=poldecom(Iqpolar,mmax,expmn);
+B=abs(Imq).^2;
+save('Bkchannel2.mat','B') 
