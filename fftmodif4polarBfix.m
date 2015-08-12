@@ -1,33 +1,35 @@
 param3
 
 ncycle=20;
-nHIO=10;
+nHIO=50;
 nER=10;
 nSupport=1;
-beta=.9;
+beta=.5;
 
-expm=matf('expm.mat');
-expmn=matf('expmn.mat');
-bess=matf('bessarrtest.mat');
+expm=matf('expmkchannel2.mat');
+expmn=matf('expmnkchannel2.mat');
+bess=matf('bessarrkchannel2.mat');
 
 lowerbound=0.0;
-upperbound=1.0;
+upperbound=10000000.0;
 
 %-------initial guess--------
 % rndPhase = 2*pi*rand(size(amplitude));
-rhos = matf('tools/shapepolar.mat');%real(ifftn(amplitude.*exp(1i*rndPhase)));
+% rhos = matf('tools/shapepolar.mat');%real(ifftn(amplitude.*exp(1i*rndPhase)));
 % randNumber=(rand(size(rhos))-0.5)./2;
 % rhos=rhos+randNumber;
 
 %-----------------------------
-radsupport=54;  % where support
-for iq=1:28
+radsupport=65;  % where support
+rhos=zeros(65,360);
+for iq=1:33
 %     rhos(iq,:)=round(rand(1,360));
     rhos(iq,:)=rand(1,360);
+    rhos(iq,:)=300000;
 end
 polplot(rhos)
 pause
-B=matf('Bshapepolar.mat');
+B=matf('Bkchannel2.mat');
 
 
 supInit = ones(size(rhos));
@@ -45,7 +47,7 @@ rhomodif = rhos;
 rhoout = zeros(size(rhos));
 
 %how many iter to display
-ndisplay=10;
+ndisplay=1;
 iterdisplay=0;
 
 %---------for shrinkwrap----------
@@ -53,8 +55,8 @@ scatPol=[];
 xpc=[];
 ypc=[]; 
 
-gaussPixelSize=10; 
-sigGauss=10; 
+gaussPixelSize=25; 
+sigGauss=1/65; 
 eps=0; 
 n=0; 
 for iq=1:nrings
@@ -101,9 +103,9 @@ for icycle=1:ncycle
         end
         rho = (rhomodif);
         rhomodif=bound(rhomodif,lowerbound,upperbound); % lower and upper boundary
-        eps=std(rhomodif(:)); 
+%         eps=std(rhomodif(:)); 
 %         eps=0; 
-        support = appsrwap(rhomodif,xpc,ypc,xc,yc,xq,yq,xp,yp,dr,sigGauss,gaussPixelSize) > .5*eps;
+%         support = appsrwap(rhomodif,xpc,ypc,xc,yc,xq,yq,xp,yp,dr,sigGauss,gaussPixelSize) > .5*eps;
         iterdisplay=iterdisplay+1;
         fdisplay(rhoout,iterdisplay,ndisplay);
 %         polplot(rhoout)
@@ -133,16 +135,17 @@ for icycle=1:ncycle
 %         end
         rho = (rhomodif);
         rhomodif=bound(rhomodif,lowerbound,upperbound); % lower and upper boundary
-        eps=std(rhomodif(:));
+%         eps=std(rhomodif(:));
 %         eps=0; 
-        support = appsrwap(rhomodif,xpc,ypc,xc,yc,xq,yq,xp,yp,dr,sigGauss,gaussPixelSize) > .5*eps;
+%         support = appsrwap(rhomodif,xpc,ypc,xc,yc,xq,yq,xp,yp,dr,sigGauss,gaussPixelSize) > .5*eps;
         iterdisplay=iterdisplay+1;
         fdisplay(rhoout,iterdisplay,ndisplay);
 %         polplot(rhoout)
 %     drawnow;  
     end
         %eps=std(rhomodif(:)); 
-        %support = appsrwap(rhomodif,xpc,ypc,xc,yc,xq,yq,xp,yp,dr,sigGauss,25) > 2*eps;
+        eps=0;
+        support = appsrwap(rhomodif,xpc,ypc,xc,yc,xq,yq,xp,yp,dr,sigGauss,gaussPixelSize) > 1*eps;
 %     gconv = imfilter(rhomodif,fspecial('gaussian', gaussPixelSize, sigGauss)); 
 %     support = rhomodif > 1*Eps;
 %     support = rho > 0;
