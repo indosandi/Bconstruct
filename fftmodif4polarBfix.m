@@ -4,14 +4,14 @@ ncycle=20;
 nHIO=50;
 nER=10;
 nSupport=1;
-beta=.5;
+beta=.9;
 
-expm=matf('expmkchannel2.mat');
-expmn=matf('expmnkchannel2.mat');
-bess=matf('bessarrkchannel2.mat');
+expm=matf('tools/expm55.mat');
+expmn=matf('tools/expmn55.mat');
+bess=matf('tools/bessarr55.mat');
 
 lowerbound=0.0;
-upperbound=10000000.0;
+upperbound=8e6;
 
 %-------initial guess--------
 % rndPhase = 2*pi*rand(size(amplitude));
@@ -20,16 +20,17 @@ upperbound=10000000.0;
 % rhos=rhos+randNumber;
 
 %-----------------------------
-radsupport=65;  % where support
-rhos=zeros(65,360);
-for iq=1:33
+radsupport=55;  % where support
+rhos=zeros(55,360);
+for iq=1:28
 %     rhos(iq,:)=round(rand(1,360));
-    rhos(iq,:)=rand(1,360);
-    rhos(iq,:)=300000;
+%     rhos(iq,:)=1e6*rand(1,360);
+    rhos(iq,:)=1e6;
 end
+rhos(1,:)=0;
 polplot(rhos)
 pause
-B=matf('Bkchannel2.mat');
+B=matf('tools/Bkchannel55.mat');
 
 
 supInit = ones(size(rhos));
@@ -56,7 +57,7 @@ xpc=[];
 ypc=[]; 
 
 gaussPixelSize=25; 
-sigGauss=1/65; 
+sigGauss=1/55; 
 eps=0; 
 n=0; 
 for iq=1:nrings

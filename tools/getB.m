@@ -8,5 +8,6 @@ Iqpolar=matf('kchannelIq_pol.mat');
 % cd tools
 expmn=matf('expmn55.mat'); 
 Imq=poldecom(Iqpolar,mmax,expmn);
+save('Imqkchannel55.mat','Imq');
 B=abs(Imq).^2;
 save('Bkchannel55.mat','B') 
