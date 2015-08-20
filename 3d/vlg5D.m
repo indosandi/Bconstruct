@@ -33,38 +33,21 @@ function [vlp]=vlg5(alm_sph,lmax,ylm,wt)
 %     end
 %     disp(iq);
 %   end
-      
-      ylmrep=repmat(ylm,[1 1 1 nq]);
-      ylmrep=permute(ylmrep,[4 1 2 3]);
-      clear ylm
-      
-%       size(ylmrep)
-      wtrep=repmat(wt,[1 nq]);
-      wtrep=permute(wtrep,[2 1]);
-      clear wt
-%       size(wtrep)
-      
-%   for iq = 1:nq
-%       Iq_save(:) = alm_sph(iq,:);
+  for iq = 1:nq
+      Iq_save(:) = alm_sph(iq,:);
 %       size(Iq_save)
-      Iq_save=alm_sph.*wtrep;
+      Iq_save=Iq_save.*wt;
 %         size(Iq_save)
-      
-      Iqrep=repmat(Iq_save,[1 1 lmax+1 2*lmax+1]);
-      clear Iq_save
-%       size(Iqrep)
-        
-      Iqrep=permute(Iqrep,[1 3 4 2]);
-%       size(Iqrep)
-        
-      Iqtotal=Iqrep.*ylmrep;
-%       size(Iqtotal)
-        
-      Iqsum=sum(Iqtotal,4);
-%       size(Iqsum)
-%         toc
 %         pause
-%       clm(iq,:,:)=Iqsum(:,:);  
-%   end
-%   save('rholm.mat','Iqsum');
+      Iqrep=repmat(Iq_save,[1 1 lmax+1 2*lmax+1]);
+%       size(Iqrep)
+      Iqrep=permute(Iqrep,[3 4 1 2]);
+%       size(Iqrep)
+      Iqtotal=Iqrep.*ylm;
+%       size(Iqtotal)
+      Iqsum=sum(Iqtotal,3);
+%       size(Iqsum)
+      clm(iq,:,:)=Iqsum(:,:);  
+  end
+  save('rholm.mat','clm');
 
