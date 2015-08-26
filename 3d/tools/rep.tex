@@ -1,0 +1,46 @@
+\documentclass{article}
+\begin{document}
+\begin{equation}
+\label{ decom 1}
+e^{-i \vec{q} . \vec{r}}=
+4 \pi \sum_{l=0}^{\infty} 
+\sum_{m=-l}^{l} i^{l} j_{l}(q r)
+Y_{lm}^{*}(\theta_{r},\phi_{r}) 
+Y_{lm}(\theta_{q},\phi_{q})
+\end{equation}
+
+\begin{eqnarray*}
+A(\vec{q})&=&\int d^{3}x  V(\vec{r}) e^{-i \vec{q} . \vec{r}} \\
+A_{lm}(q) 
+\sum_{l=0}^{\infty} 
+\sum_{m=-l}^{l} Y_{lm}(\theta_{q},\phi_{q}) 
+ &=&\int d^{3}r  V(\vec{r}) 
+4 \pi \sum_{l=0}^{\infty} 
+\sum_{m=-l}^{l} i^{l} j_{l}(q r)
+Y_{lm}^{*}(\theta_{r},\phi_{r}) 
+Y_{lm}(\theta_{q},\phi_{q})
+\\
+A_{lm}(q) 
+\sum_{l=0}^{\infty} 
+\sum_{m=-l}^{l} Y_{lm}(\theta_{q},\phi_{q}) 
+ &=&\int  dr r^{2} d\Omega  V(\vec{r}) 
+4 \pi \sum_{l=0}^{\infty} 
+\sum_{m=-l}^{l} i^{l} j_{l}(q r)
+Y_{lm}^{*}(\theta_{r},\phi_{r}) 
+Y_{lm}(\theta_{q},\phi_{q})
+\\
+A_{lm}(q) 
+\sum_{l=0}^{\infty} 
+\sum_{m=-l}^{l} Y_{lm}(\theta_{q},\phi_{q}) 
+ &=&\int dr r^{2} 
+4 \pi \sum_{l=0}^{\infty} 
+\sum_{m=-l}^{l} i^{l} j_{l}(q r)
+V_{lm}(r)
+Y_{lm}(\theta_{q},\phi_{q})
+\\
+\end{eqnarray*}
+\begin{equation}
+A_{lm}=\int dr r^{2}  4 \pi i^{l} V_{lm}(r) j_{l}(q r)
+\label{int 1}
+\end{equation}
+\end{document}
