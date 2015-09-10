@@ -1,9 +1,13 @@
-function Almq=rhoMtoAm(rhoLM,dr,dq)
+function Almq=rhoMtoAm(rhoLM,dr,dq,nq)
 lmax=size(rhoLM,2)-1; 
 larray=0:lmax; 
 
 nrings=size(rhoLM,1);
-nringsq=nrings; 
+if (nargin==3)
+    nringsq=nrings; 
+else
+    nringsq=nq; 
+end
 
 for iq=1:nringsq
     %fprintf('%d \n',iq)
@@ -21,5 +25,5 @@ for iq=1:nringsq
     end
     end
 end
-Almq=Almq*dr; 
+%Almq=Almq*dr; 
 end
