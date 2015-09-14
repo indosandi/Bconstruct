@@ -1,18 +1,27 @@
-function Almq=rhoMtoAM(rhoLM,dr,dq,spbs,nq)
+function Almq=rhoMtoAM(rhoLM,dr,dq,spbs)
+%if (nargout==0)
+    %Almq=0; 
+%else 
+    %%Almq=zeros(31,21,41); 
+    %disp('here'); 
+%end
+%Almq=zeros(31,31,21,41); 
+%display(nargin)
 lmax=size(rhoLM,2)-1; 
 larray=0:lmax; 
 lsize=size(rhoLM,2);
 msize=size(rhoLM,3); 
 rsize=size(rhoLM,1); 
-
 nrings=size(rhoLM,1);
-if (nargin==4)
-    nringsq=nrings; 
-else if(nargin==5)
-    nringsq=nq; 
-end
-qsize=nringsq; 
 
+%if (nargin==4)
+    %nringsq=nrings; 
+    %disp('here') 
+%else if(nargin==5)
+    %nringsq=nq; 
+%end
+%disp('here 2') 
+qsize=size(spbs,1) ;  
 %expand r^2
 rsqr=0:(nrings-1);
 rsqr=rsqr'; % column array
@@ -20,14 +29,14 @@ rsqr=rsqr*dr;
 rsqr=rsqr.*rsqr;
 rsqr=repmat(rsqr,[1 lsize msize]); 
 %rsqr=repmat(rsqr,1,size(rhoLM,3)); 
-size(rsqr)
+%size(rsqr)
 
 %jarray
 jarray=(-j).^larray; 
 jarray=jarray';
 jarray=repmat(jarray,[1 rsize msize]);
 jarray=permute(jarray,[2 1 3]); 
-size(jarray) 
+%size(jarray) 
 %jarray(1:3,1,1)
 %jarray(1,1:3,1)
 %jarray(1,1,1:3)
@@ -45,11 +54,14 @@ rhoLM=repmat(rhoLM,[1 1 1 qsize]);
 rhoLM=permute(rhoLM,[4 1 2 3]); 
 %size(rhoLM)
 
+%disp('here') 
 Almq=rhoLM.*bessexp; 
 Almq=(2*sum(Almq,2)-(Almq(:,1,:,:)+Almq(:,rsize,:,:)))*4*pi*dr/2; %trapezoid rule
 Almq=squeeze(Almq); 
-%size(Almq); 
+%size(Almq) 
+%Almq(1,1,1) 
 %pause
+
 
 %for iq=1:nringsq
     %for l=0:lmax
