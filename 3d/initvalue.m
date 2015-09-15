@@ -1,30 +1,65 @@
-lmax=headg('lmax');
+clear
+nrings=31;
+dr=1;
+rmax=(nrings-1)*dr;
+
+dq=1/(60);
+qmax=(nrings-1)*dq;
+
+
+
+lmax=20;
 larray=[0:lmax];
-Nq=headg('ndqsph');
-dq=headg('dqsph');
+lenlarray=length(larray); 
+Nq=nrings;
 qgrid=0:dq:(Nq-1)*dq;
 
-N=Nq-1;;
-dq=headg('dqsph');
-qqx=-N*dq:dq:N*dq;
-qqy=-N*dq:dq:N*dq;
-qqz=-N*dq:dq:N*dq;
-len3dpoint=length(qqx);
-lenlarray=length(larray); 
+Nr=nrings;
+rgrid=0:dr:(Nr-1)*dr; 
 
-% make one indeks
+clus=1; 
+N=Nq-1;
+dqcart=clus*dq; 
+qqx=-N*dq:dqcart:N*dq;
+qqy=-N*dq:dqcart:N*dq;
+qqz=-N*dq:dqcart:N*dq;
+len3dqpoint=length(qqx)
+
+N=Nr-1; 
+drcart=clus*dr; 
+rrx=-N*dr:drcart:N*dr;
+rry=-N*dr:drcart:N*dr;
+rrz=-N*dr:drcart:N*dr;
+len3drpoint=length(rrx)
+
+% make one indeks for r
+ nind=0;
+ for ii=1:length(rrx)
+ for ij=1:length(rry)
+ for ik=1:length(rrz)
+     nind=nind+1;
+     rx(nind)=rrx(ii);
+     ry(nind)=rry(ij);
+     rz(nind)=rrz(ik);
+ end  
+ end   
+ end  
+ 
+ [phi,theta,rrr]=cart2sph(rx,ry,rz);
+
+% make one indeks for q
  nind=0;
  for ii=1:length(qqx)
  for ij=1:length(qqy)
  for ik=1:length(qqz)
-     nind=nind+1;
+     nind=nind+1
      qx(nind)=qqx(ii);
      qy(nind)=qqy(ij);
      qz(nind)=qqz(ik);
  end  
  end   
  end  
- 
+size(qx) 
  [phi,theta,qqr]=cart2sph(qx,qy,qz);
  
  %filling ylm
@@ -60,7 +95,8 @@ theta = pi/2.0-theta;
     end
 save('ylmvlg.mat','ylm');
  
-save('needed.mat','larray','qgrid','qqr','len3dpoint','lmax','wt'); 
+save('needed.mat','larray','qgrid','qqr','len3dqpoint','lmax','wt'...
+    ,'rgrid','rrr','len3drpoint'); 
 clear
 load('needed.mat');
 load('ylmvlg.mat');

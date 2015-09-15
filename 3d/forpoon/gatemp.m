@@ -1,26 +1,18 @@
-function aq=gatemp(alm,tipe)
+function ga(tipe)
 	
-    %alm=matf('rhoagain.mat');
+    alm=matf('Almq.mat');
     lico=[0:20]; 
-    if (nargin==1)
-        aq=output(alm,lico,1); 
-        name=strcat('rhotest','z','.mat'); 
-        save(name,'aq'); 
-        aq=output(alm,lico,2); 
-        name=strcat('rhotest','y','.mat'); 
-        save(name,'aq'); 
-        aq=output(alm,lico,3); 
-        name=strcat('rhotest','x','.mat'); 
-        save(name,'aq'); 
-    else 
-        if(tipe==1)
-            aq=output(alm,lico,1); 
-        elseif(tipe==2)
-            aq=output(alm,lico,2); 
-        elseif(tipe==3)
-            aq=output(alm,lico,2); 
-        end
-    end
+    aq=output(alm,lico,1); 
+    nameorig='Aqtest';
+    name=strcat(nameorig,'z','.mat'); 
+    save(name,'aq'); 
+    aq=output(alm,lico,2); 
+    name=strcat(nameorig,'y','.mat'); 
+    save(name,'aq'); 
+    aq=output(alm,lico,3); 
+    name=strcat(nameorig,'x','.mat'); 
+    save(name,'aq'); 
+
 end
 function aq=output(alm,lico,tipe); 
     Nq=size(alm,1);
@@ -69,7 +61,7 @@ function aq=output(alm,lico,tipe);
     
     %filling ylm
     for il=1:length(lico)
-        l=lico(il);
+        l=lico(il)
 		for m=-l:l
            ylmsave(l+1,m+l+1,:)=compute_ylm(l,m,pi/2.-theta,phi);
         end 
@@ -83,7 +75,7 @@ function aq=output(alm,lico,tipe);
 	for ii=1:length(qqx)
 	for ij=1:length(qqy)
 	for ik=1:length(qqz)
-        nind=nind+1; 
+        nind=nind+1
         swap=almp2(:,:,nind).*ylmsave(:,:,nind);
         swap=reshape(swap,[],1);
 	aq(ii,ij,ik)=sum(swap);

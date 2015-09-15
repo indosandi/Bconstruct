@@ -34,5 +34,5 @@ function dataintp()
 
      vp2(k,:)=vp(:);
 	 end
-	 save('model.mat','vp2');
+	 save('rhomodel61G.mat','vp2');
     
